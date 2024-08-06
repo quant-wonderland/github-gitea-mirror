@@ -2,7 +2,7 @@
 
 buildPythonPackage {
   pname = "github-gitea-mirror";
-  version = "1.0.0";
+  version = "1.4.0";
   src = ./.;
 
   propagatedBuildInputs = [ pygithub ];

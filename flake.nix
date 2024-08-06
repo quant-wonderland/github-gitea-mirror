@@ -41,14 +41,9 @@
         # Some of the python tools are developed and packaged with poetry.
         devShells.default = pkgs.mkShell rec {
           name = "deveops-tools";
-          packages = with pkgs; [
-            poetry
-            pkgs-unstable.rclone
-            pythonForDevops
-            nodePackages.pyright
-          ];
+          packages = with pkgs; [ pythonForDevops ];
           shellHook = ''
-            export CONFIG_JSON_PATH="/home/twl/workspace/github-gitea-mirror/src"
+            export CONFIG_JSON_PATH="$(pwd)/github-gitea-mirror/src"
           '';
         };
 
