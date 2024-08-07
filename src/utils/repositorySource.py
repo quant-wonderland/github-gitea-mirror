@@ -1,12 +1,26 @@
 #!/usr/bin/env python
 # https://github.com/PyGithub/PyGithub
-from .helper import isBlacklistedRepository, log, getConfig, giteaCreateUserOrOrg, giteaSetRepoTopics, giteaSession, giteaCreateRepo, ghApi, giteaCreateOrg, giteaGetUser, config, giteaUpdateMirror
+from .helper import (
+    isBlacklistedRepository,
+    log,
+    getConfig,
+    giteaCreateUserOrOrg,
+    giteaSetRepoTopics,
+    giteaSession,
+    giteaCreateRepo,
+    ghApi,
+    giteaCreateOrg,
+    giteaGetUser,
+    config,
+    giteaUpdateMirror,
+)
 from github import GithubException
 import time
 
+
 def repositorySource():
     config = getConfig()
-    repo_map = config['repomap']
+    repo_map = config["repomap"]
     gh = ghApi()
     loop_count = 0
     synced_repos = 0
@@ -27,7 +41,7 @@ def repositorySource():
             gitea_dest_user = org.login
             repo_owner = org.login
 
-            log('Source Repository : {0}'.format(repo.full_name))
+            log("Source Repository : {0}".format(repo.full_name))
 
             if isBlacklistedRepository(repo.full_name):
                 print("     ---> Warning : Repository Matches Blacklist")
@@ -38,27 +52,27 @@ def repositorySource():
 
             gitea_uid = giteaGetUser(gitea_dest_user)
 
-            if gitea_uid == 'failed':
-                gitea_uid = giteaCreateUserOrOrg(gitea_dest_user, 'Organization')
+            if gitea_uid == "failed":
+                gitea_uid = giteaCreateUserOrOrg(gitea_dest_user, "Organization")
 
             repo_name = "{0}".format(real_repo)
 
             m = {
-                "repo_name"         : repo_name,
-                "description"       : (repo.description or "not really known")[:255],
-                "clone_addr"        : repo.clone_url,
-                "mirror"            : True,
-                "private"           : repo.private,
-                "uid"               : gitea_uid,
+                "repo_name": repo_name,
+                "description": (repo.description or "not really known")[:255],
+                "clone_addr": repo.clone_url,
+                "mirror": True,
+                "private": repo.private,
+                "uid": gitea_uid,
             }
 
             status = giteaCreateRepo(m, repo.private, True)
-            if status != 'failed':
+            if status != "failed":
                 try:
-                    if status == 'exists':
+                    if status == "exists":
                         # 如果仓库已存在，尝试更新镜像
                         update_status = giteaUpdateMirror(gitea_dest_user, repo_name)
-                        if update_status == 'success':
+                        if update_status == "success":
                             updated_repos += 1
                             org_updated_repos += 1
                             print(f"成功更新仓库: {repo.full_name}")
@@ -79,12 +93,16 @@ def repositorySource():
 
             if loop_count % 50 == 0:
                 log(False)
-                log('Time To Sleep For 5 Seconds')
+                log("Time To Sleep For 5 Seconds")
                 log(False)
                 time.sleep(5)
             else:
                 log(False)
 
-        print(f"组织 {org.login} 同步完成，新同步 {org_synced_repos} 个仓库，更新 {org_updated_repos} 个仓库")
+        print(
+            f"组织 {org.login} 同步完成，新同步 {org_synced_repos} 个仓库，更新 {org_updated_repos} 个仓库"
+        )
 
-    print(f"所有组织同步完成，总共新同步 {synced_repos} 个仓库，更新 {updated_repos} 个仓库")
+    print(
+        f"所有组织同步完成，总共新同步 {synced_repos} 个仓库，更新 {updated_repos} 个仓库"
+    )
