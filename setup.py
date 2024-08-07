@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="github-gitea-mirror",
-    version="1.0.0",
+    version="1.4.0",
     description="This is a demo python package that provides a data processing  via spider",
     author="chengzi",
     author_email="cz619252615@gmail.com",
