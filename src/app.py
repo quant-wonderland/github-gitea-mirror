@@ -7,7 +7,7 @@ from .utils.repositorySource import repositorySource
 
 
 def main():
-    config_json_path = os.environ.get("CONFIG_JSON_PATH")
+    config_json_path = os.environ.get("GITHUB_MIRROR_CONFIG")
     config = json.loads(
         open(os.path.expanduser("{0}/config.json".format(config_json_path)))
         .read()
