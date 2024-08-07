@@ -9,8 +9,9 @@ import fnmatch
 from datetime import datetime
 
 giteaGetUserCache = dict()
-THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
-config = json.loads(open(os.path.expanduser("{0}/config.json".format(THIS_FOLDER))).read().strip())
+# THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
+# config_json_path = os.environ.get('CONFIG_JSON_PATH')
+config = {}
 
 def logError(val):
     log('')
@@ -27,7 +28,9 @@ def log(val):
         dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
         print("[{0}]    {1}".format(dt_string,val))
 
-
+def set_config(value): 
+    global config 
+    config = value 
 def getConfig():
     return config
 
@@ -38,6 +41,7 @@ def ghApi():
     return Github(config['github']['accesstoken'])
 
 def giteaSession():
+    global session
     session = requests.Session()
     session.headers.update({
         "Content-type"  : "application/json",
@@ -47,7 +51,8 @@ def giteaSession():
     return session
 
 
-session = giteaSession()
+# session = giteaSession()
+# session = None
 
 def giteaSetRepoTopics(owner,repo_name,topics):
     m = {
@@ -213,3 +218,17 @@ def isBlacklistedRepository(full_name):
         if fnmatch.fnmatch(full_name, pattern):
             return True
     return False
+
+def giteaUpdateMirror(owner, repo):
+    try:
+        r = session.post(giteaHost(f"repos/{owner}/{repo}/mirror-sync"))
+        if r.status_code == 200:
+            print(f"     ---> Success : Repository {owner}/{repo} mirror sync triggered")
+            return 'success'
+        else:
+            print(f"     ---> Error : Unable to trigger mirror sync for {owner}/{repo}")
+            print(r.status_code, r.text)
+            return 'failed'
+    except Exception as e:
+        print(f"     ---> Error : Exception occurred while updating mirror for {owner}/{repo}: {str(e)}")
+        return 'failed'
