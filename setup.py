@@ -7,6 +7,6 @@ setup(
     author="chengzi",
     author_email="cz619252615@gmail.com",
     packages=find_packages(),
-    entry_points={"console_scripts": ["github-gitea-mirror=src.app:main"]},
+    entry_points={"console_scripts": ["github-gitea-mirror=mirror.app:main"]},
     python_requires=">=3.6",
 )

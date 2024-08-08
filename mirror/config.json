@@ -1,12 +1,12 @@
 {
   "github": {
-    "username": "github username",
-    "accesstoken": "github access-token"
+    "username": "tt619252615",
+    "accesstoken": "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"
   },
   "gitea": {
-    "host": "gitea host, eg: https://gitea.com",
-    "accesstoken": "gitea access-token",
-    "username": "gitea username, first register a user with this name",
+    "host": "http://192.168.185.140:3002",
+    "accesstoken": "f5988b117b817d6998a851040f31e160d08965f7",
+    "username": "tt619252615",
     "default_userpassword": "RY7VpBD62P7964c4c3e2c8e$mSz%2GAM82hv68yUbHc4@Gdw8c%f^W3*qd4c3e2c8ef*8a6b^rKy",
     "gist": {
       "prefix": "gist",

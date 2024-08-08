@@ -43,7 +43,7 @@
           name = "deveops-tools";
           packages = with pkgs; [ pythonForDevops ];
           shellHook = ''
-            export CONFIG_JSON_PATH="$(pwd)/github-gitea-mirror/src"
+            export GITHUB_MIRROR_CONFIG="$(pwd)/mirror"
           '';
         };
 
