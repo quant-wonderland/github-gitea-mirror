@@ -8,11 +8,7 @@ from .utils.repositorySource import repositorySource
 
 def main():
     config_json_path = os.environ.get("GITHUB_MIRROR_CONFIG")
-    config = json.loads(
-        open(os.path.expanduser("{0}/config.json".format(config_json_path)))
-        .read()
-        .strip()
-    )
+    config = json.loads(open(config_json_path).read().strip())
     set_config(config)
     giteaSession()
     if config["gistsSource"]:

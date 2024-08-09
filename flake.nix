@@ -43,7 +43,7 @@
           name = "deveops-tools";
           packages = with pkgs; [ pythonForDevops ];
           shellHook = ''
-            export GITHUB_MIRROR_CONFIG="$(pwd)/mirror"
+            export GITHUB_MIRROR_CONFIG="$(pwd)/mirror/config.json"
           '';
         };
 
